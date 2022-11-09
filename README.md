@@ -12,13 +12,27 @@
     <img src="https://img.shields.io/badge/license-Apache2-blue.svg?style=flat" alt="Apache 2">
 </p>
 
-# Inventory Service
+# [Inventory Service](https://www.linkedin.com/in/tuando831/)
 
-This Service will handle...
+## Table of Contents
+1. [Features](#features)
+2. [Tech stack](#tech-stack)
+3. [Running the Dev Environment](#run-the-dev-environment)
+4. [Deploying](#deploying)
+5. [Source Structure](#source-structure)
+6. [Database Design](#database-design)
+7. [Use cases](#use-cases)
+8. [License](#license)
 
 ## Features
 
 The Inventory service will provides the following features:
+- [x] CRUD://product-services/products
+- [ ] CRUD://product-services/products/:id/product-variants
+- [ ] CRUD://product-services/product-category
+- [ ] CRUD://product-services/product-attributes
+
+## Tech stack 
 
 - [x] Dev environment with [docker-compose](https://www.docker.com/)
 - [x] Database with [PostgreSql](postgresql.org)
@@ -60,13 +74,14 @@ npm start
 ### Access Resource in Local environment
 
 1. Connect with PostgreSQL
-   > Recommend [TablePlus](https://tableplus.com/), dbeaver
 
-```
-POSTGRES_USER=dev_user
-POSTGRES_PASSWORD=dev_pass
-POSTGRES_DB=inventory_db
-```
+    > Recommend [TablePlus](https://tableplus.com/), dbeaver
+
+    ```
+    POSTGRES_USER=dev_user
+    POSTGRES_PASSWORD=dev_pass
+    POSTGRES_DB=inventory_db
+    ```
 
 2. APIs URL: http://localhost:3000
 
@@ -75,6 +90,16 @@ POSTGRES_DB=inventory_db
 ## Deploying
 
 Will update later...
+
+## Source Structure
+![Source Structure](docs/structure.drawio.png "Title")
+
+## Database Design
+![Database diagram](docs/database.drawio.png "Title")
+
+## Use cases
+- [Product CRUD](docs/product-crud.md)
+- [Product variant](docs/product-variant.md)
 
 ## License
 
