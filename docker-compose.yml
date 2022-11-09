@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:14.5
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      POSTGRES_USER: dev_user
+      POSTGRES_PASSWORD: dev_pass
+      POSTGRES_DB: inventory_db
+    networks:
+      - dev_network
+      
+networks:
+  dev_network:
+    driver: bridge

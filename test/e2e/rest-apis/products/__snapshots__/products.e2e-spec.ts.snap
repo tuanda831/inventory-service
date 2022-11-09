@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ApiController (e2e) Products Create product should create a product 1`] = `
+Object {
+  "data": Object {
+    "barcode": "99999",
+    "createdAt": Any<String>,
+    "deletedAt": null,
+    "description": "Product Description here",
+    "id": Any<String>,
+    "images": Array [
+      "https://test1.link",
+      "https://test2.link",
+    ],
+    "name": "New Product",
+    "price": 1.98,
+    "restoredAt": null,
+    "shortCode": "New-Product-123",
+    "sku": "123",
+    "updatedAt": Any<String>,
+  },
+  "message": "\\"Product\\" is Created!",
+}
+`;
+
+exports[`ApiController (e2e) Products Get empty products should get empty list 1`] = `
+Object {
+  "data": Array [],
+  "meta": Object {
+    "limit": 0,
+    "offset": 0,
+    "totalCount": 0,
+  },
+}
+`;
+
+exports[`ApiController (e2e) Products Get products should get a products 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "barcode": "99999",
+      "createdAt": Any<String>,
+      "deletedAt": null,
+      "description": "Product Description here",
+      "id": Any<String>,
+      "images": Array [
+        "https://test1.link",
+        "https://test2.link",
+      ],
+      "name": "New Product",
+      "price": "1.98",
+      "restoredAt": null,
+      "shortCode": "New-Product-123",
+      "sku": "123",
+      "updatedAt": Any<String>,
+    },
+  ],
+  "meta": Object {
+    "limit": 0,
+    "offset": 0,
+    "totalCount": 0,
+  },
+}
+`;
