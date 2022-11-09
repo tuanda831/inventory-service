@@ -27,10 +27,10 @@
 ## Features
 
 The Inventory service will provides the following features:
-- [x] CRUD://product-services/products
-- [ ] CRUD://product-services/products/:id/product-variants
-- [ ] CRUD://product-services/product-category
-- [ ] CRUD://product-services/product-attributes
+- [x] CRUD://inventoy/products
+- [ ] CRUD://inventoy/products/:id/product-variants
+- [ ] CRUD://inventoy/product-category
+- [ ] CRUD://inventoy/product-attributes
 
 ## Tech stack 
 
@@ -46,7 +46,6 @@ The Inventory service will provides the following features:
 - [x] Logging using `nest-winston`
 - [ ] Event Sourcing using [Temporal](https://temporal.io/)
 - [ ] DevOps pipeline with [Github CI](https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs)
-- [ ] Support distributed tracing with [opentelemetry](https://opentelemetry.io/docs/)
 
 ## Run the Dev Environment
 
