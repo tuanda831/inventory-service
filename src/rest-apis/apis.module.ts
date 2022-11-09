@@ -5,7 +5,6 @@ import { productRepositoryProviders } from '../dal/repository/product/product.pr
 import { databaseProviders } from '../dal/repository/database.providers';
 import { ConfigModule } from '@nestjs/config';
 import { GracefullShutdown } from './graceful-shutdown.providers';
-import { LoggerProvider } from '../dal/logger/logger.providers';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
 
 @Module({
@@ -16,7 +15,6 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
     ...productRepositoryProviders,
     ProductService,
     GracefullShutdown,
-    LoggerProvider,
   ],
 })
 export class ApisModule implements NestModule {

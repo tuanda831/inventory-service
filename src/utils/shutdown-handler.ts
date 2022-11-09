@@ -1,8 +1,8 @@
-import { LoggerInterface } from '../dal/logger/logger.providers';
+import { LoggerService } from '@nestjs/common';
 
 const signalsNames: NodeJS.Signals[] = ['SIGTERM', 'SIGINT', 'SIGHUP'];
 
-export const shutdownHandler = (logger: LoggerInterface) => {
+export const shutdownHandler = (logger: LoggerService) => {
   signalsNames.forEach((signalName) =>
     process.on(signalName, (signal) => {
       logger.log(`Retrieved signal: ${signal}, application terminated`);

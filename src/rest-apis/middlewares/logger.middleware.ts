@@ -1,10 +1,8 @@
-import { Injectable, NestMiddleware } from '@nestjs/common';
+import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import { LoggerProvider } from '../../dal/logger/logger.providers';
 
 @Injectable()
 export class LoggerMiddleware implements NestMiddleware {
-  constructor(private logger: LoggerProvider) {}
   use(req: Request, res: Response, next: NextFunction) {
     const requestStart = Date.now();
 
@@ -12,7 +10,7 @@ export class LoggerMiddleware implements NestMiddleware {
       const { rawHeaders, httpVersion, method, socket, url } = req;
       const { remoteAddress, remoteFamily } = socket;
 
-      this.logger.log(
+      Logger.log(
         JSON.stringify({
           timestamp: Date.now(),
           processingTime: `${Date.now() - requestStart}ms`,
