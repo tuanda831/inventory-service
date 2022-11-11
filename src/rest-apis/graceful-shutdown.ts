@@ -7,7 +7,7 @@ import {
 import { DataSource } from 'typeorm';
 
 @Injectable()
-export class GracefullShutdown implements OnApplicationShutdown {
+export class GracefulShutdown implements OnApplicationShutdown {
   @Inject(DataSource)
   private readonly dataSource: DataSource;
 

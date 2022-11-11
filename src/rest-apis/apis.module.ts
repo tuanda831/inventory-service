@@ -1,10 +1,10 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ProductController } from './controllers/products.controller';
 import { ProductService } from '../services/products/product.service';
-import { productRepositoryProviders } from '../dal/repository/product/product.providers';
-import { databaseProviders } from '../dal/repository/database.providers';
+import { productRepositoryProviders } from '../repository/product/product.providers';
+import { databaseProviders } from '../repository/database.providers';
 import { ConfigModule } from '@nestjs/config';
-import { GracefullShutdown } from './graceful-shutdown.providers';
+import { GracefulShutdown } from './graceful-shutdown';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
 
 @Module({
@@ -14,7 +14,7 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
     ...databaseProviders,
     ...productRepositoryProviders,
     ProductService,
-    GracefullShutdown,
+    GracefulShutdown,
   ],
 })
 export class ApisModule implements NestModule {

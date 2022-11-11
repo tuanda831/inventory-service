@@ -1,29 +1,18 @@
 import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import { ApisModule } from './rest-apis/apis.module';
-import { shutdownHandler } from './utils/shutdown-handler';
-import { LoggerProvider } from './dal/logger/logger.providers';
-import { Swagger } from './rest-apis/swagger.module';
-import { Logger } from '@nestjs/common';
+import { LoggerFactory } from './services/logger/logger-factory';
+import { SwaggerFactory } from './rest-apis/swagger/swagger-factory';
+import { ConsoleLogger } from '@nestjs/common';
 
 async function bootstrap() {
-  let nestOption = {};
-  if (process.env.LOGGER__TO_FILE == 'true') {
-    nestOption = {
-      ...nestOption,
-      logger: new LoggerProvider(),
-    };
-  }
-
-  const app = await NestFactory.create(ApisModule, nestOption);
+  const app = await NestFactory.create(ApisModule, {
+    logger: LoggerFactory(new ConsoleLogger()),
+  });
 
   app.enableShutdownHooks();
 
-  shutdownHandler(Logger);
-
-  if (process.env.SWAGGER__ENDPOINT == 'true') {
-    Swagger(app);
-  }
+  SwaggerFactory(app);
 
   await app.listen(3000);
 }

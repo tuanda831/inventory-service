@@ -1,6 +1,6 @@
 import { applyDecorators, Type } from '@nestjs/common';
 import { ApiExtraModels, ApiOkResponse, getSchemaPath } from '@nestjs/swagger';
-import { BaseResponse } from '../rest-apis/responses/basic.response';
+import { BaseResponse } from '../responses/basic.response';
 
 export const ApiOkResponseArray = <
   DataDTO extends Type<unknown>,

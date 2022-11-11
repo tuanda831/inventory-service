@@ -9,7 +9,7 @@ import { ProductDTO } from '../responses/products/products.dto';
 import {
   ApiOkResponseArray,
   ApiOkResponseObject,
-} from '../../decorators/api-ok-response';
+} from '../swagger/api-ok-response';
 
 @ApiTags('Products')
 @Controller('/products')

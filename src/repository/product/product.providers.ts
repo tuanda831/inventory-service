@@ -1,5 +1,5 @@
 import { DataSource, Repository } from 'typeorm';
-import { Product } from '../../../dto/entity/product/product.entiry';
+import { Product } from '../../dto/entity/product/product.entiry';
 
 export const productRepositoryProviders = [
   {

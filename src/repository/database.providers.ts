@@ -1,4 +1,4 @@
-import { Product } from '../../dto/entity/product/product.entiry';
+import { Product } from '../dto/entity/product/product.entiry';
 import { DataSource } from 'typeorm';
 
 export const databaseProviders = [
