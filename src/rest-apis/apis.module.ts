@@ -6,6 +6,9 @@ import { databaseProviders } from '../repository/database.providers';
 import { ConfigModule } from '@nestjs/config';
 import { GracefulShutdown } from './graceful-shutdown';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
+import { workflowConnectionProvider } from '../workflows/connection.providers';
+import { wfClientProvider } from '../workflows/wf-client.providers';
+import { SearchServicePublisher } from '../workflows/search-service/publisher';
 
 @Module({
   imports: [ConfigModule.forRoot()],
@@ -13,7 +16,10 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
   providers: [
     ...databaseProviders,
     ...productRepositoryProviders,
+    ...workflowConnectionProvider,
+    ...wfClientProvider,
     ProductService,
+    SearchServicePublisher,
     GracefulShutdown,
   ],
 })

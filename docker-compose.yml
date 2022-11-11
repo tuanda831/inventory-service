@@ -12,6 +12,36 @@ services:
       POSTGRES_DB: inventory_db
     networks:
       - dev_network
+  
+  temporal:
+    image: temporalio/auto-setup:1.13.4
+    depends_on:
+      - db
+    environment:
+      - DB=postgresql
+      - DB_PORT=5432
+      - POSTGRES_USER=dev_user
+      - POSTGRES_PWD=dev_pass
+      - POSTGRES_SEEDS=db
+      - DYNAMIC_CONFIG_FILE_PATH=config/dynamicconfig/development-sql.yaml
+    networks:
+      - dev_network
+    ports:
+      - 7233:7233
+    volumes:
+      - ./docker/dynamicconfig:/etc/temporal/config/dynamicconfig
+
+  temporal-ui:
+    image: temporalio/ui
+    networks:
+      - dev_network
+    depends_on:
+      - temporal
+    environment:
+      - TEMPORAL_ADDRESS=temporal:7233
+      - TEMPORAL_CORS_ORIGINS=http://localhost:3000
+    ports:
+      - 8080:8080
       
 networks:
   dev_network:
