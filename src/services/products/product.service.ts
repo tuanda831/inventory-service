@@ -16,4 +16,8 @@ export class ProductService {
   save(product: Product): Promise<Product> {
     return this.productRepository.save(product);
   }
+
+  saveBulk(products: Product[]): Promise<Product[]> {
+    return this.productRepository.save(products);
+  }
 }

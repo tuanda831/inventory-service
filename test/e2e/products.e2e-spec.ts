@@ -1,10 +1,10 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import * as request from 'supertest';
-import { ApisModule } from '../../../../src/rest-apis/apis.module';
+import { Test, TestingModule } from '@nestjs/testing';
 import { ProductCreationRequest } from 'src/rest-apis/requests/products/product-creation.request';
-import { TRUNCATE_ALL_TABLES } from '../../utils';
+import * as request from 'supertest';
 import { DataSource } from 'typeorm';
+import { ApisModule } from '../../src/rest-apis/apis.module';
+import { TRUNCATE_ALL_TABLES } from './utils';
 
 describe('ApiController (e2e)', () => {
   let app: INestApplication;

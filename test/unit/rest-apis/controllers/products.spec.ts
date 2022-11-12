@@ -1,19 +1,23 @@
-import { ProductController } from '../../../../src/rest-apis/controllers/products.controller';
-import { ProductService } from '../../../../src/services/products/product.service';
-import { Product } from '../../../../src/dto/entity/product/product.entiry';
-import { Repository } from 'typeorm';
-import { ProductCreationRequest } from '../../../../src/rest-apis/requests/products/product-creation.request';
+import { ConfigService } from '@nestjs/config';
+import { ClientKafka } from '@nestjs/microservices';
 import { Response } from 'express';
+import { Repository } from 'typeorm';
+import { Product } from '../../../../src/dto/entity/product/product.entiry';
+import { ProductController } from '../../../../src/rest-apis/controllers/products.controller';
+import { ProductCreationRequest } from '../../../../src/rest-apis/requests/products/product-creation.request';
+import { ProductService } from '../../../../src/services/products/product.service';
 
 const results = new Product();
 let controller: ProductController;
 let productService: ProductService;
 let productRepository: Repository<Product>;
+let eventClient: ClientKafka;
+let config: ConfigService;
 
 describe('ProductController', () => {
   beforeEach(async () => {
     productService = new ProductService(productRepository);
-    controller = new ProductController(productService);
+    controller = new ProductController(productService, eventClient, config);
   });
 
   describe('/products (POST)', () => {

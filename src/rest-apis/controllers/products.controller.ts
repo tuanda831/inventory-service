@@ -1,11 +1,14 @@
 import { Body, Controller, Get, Post, Res } from '@nestjs/common';
+import { ClientKafka } from '@nestjs/microservices';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
+import { EVENT__PRODUCT_CREATION } from 'src/dto/constants/events';
+import { v4 } from 'uuid';
 import { Product } from '../../dto/entity/product/product.entiry';
 import { ProductService } from '../../services/products/product.service';
-import { BaseResponse, MetaDTO } from '../responses/basic.response';
 import { ProductCreationRequest } from '../requests/products/product-creation.request';
-import { ProductDTO } from '../responses/products/products.dto';
+import { BaseResponse, MetaDTO } from '../responses/basic.response';
+import { ProductDTO, ProductIdDTO } from '../responses/products/products.dto';
 import {
   ApiOkResponseArray,
   ApiOkResponseObject,
@@ -14,7 +17,10 @@ import {
 @ApiTags('Products')
 @Controller('/products')
 export class ProductController {
-  constructor(private readonly productService: ProductService) {}
+  constructor(
+    private readonly productService: ProductService,
+    private readonly eventClient: ClientKafka,
+  ) {}
 
   @Get()
   @ApiOperation({ summary: 'Get Products with Pagination' })
@@ -31,20 +37,18 @@ export class ProductController {
 
   @Post()
   @ApiOperation({ summary: 'Create Product' })
-  @ApiOkResponseObject(ProductDTO, MetaDTO)
+  @ApiOkResponseObject(ProductIdDTO, MetaDTO)
   async create(@Res() res: Response, @Body() reqBody: ProductCreationRequest) {
     const product = {
       ...reqBody,
+      id: v4(),
       shortCode: `${reqBody.name.replace(' ', '-')}-${reqBody.sku}`,
     };
 
-    const newProd: Product = await this.productService.save(product as Product);
+    this.eventClient.emit<Product[]>(EVENT__PRODUCT_CREATION, [product]);
 
-    //TODO: Publish search indexing event
-
-    return new BaseResponse<ProductDTO, MetaDTO>(res).created(
-      'Product',
-      newProd,
-    );
+    return new BaseResponse<ProductIdDTO, MetaDTO>(res).created('Product', {
+      id: product.id,
+    });
   }
 }
