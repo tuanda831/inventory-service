@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { databaseProviders } from '../repository/database.providers';
 import { productRepositoryProviders } from '../repository/product/product.providers';
@@ -6,7 +6,6 @@ import { eventBusClientProvider } from '../services/event-publisher/kafka.provid
 import { GracefulShutdown } from '../services/graceful-shutdown';
 import { ProductService } from '../services/products/product.service';
 import { ProductController } from './controllers/products.controller';
-import { LoggerMiddleware } from './middlewares/logger.middleware';
 
 @Module({
   imports: [ConfigModule.forRoot()],
@@ -19,8 +18,4 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
     GracefulShutdown,
   ],
 })
-export class ApisModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggerMiddleware).forRoutes('*');
-  }
-}
+export class EventHandlerModule {}

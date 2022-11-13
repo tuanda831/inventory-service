@@ -1,19 +1,20 @@
-import { Product } from '../dto/entity/product/product.entiry';
+import { ConfigService } from '@nestjs/config';
 import { DataSource } from 'typeorm';
+import { Product } from '../dto/entity/product/product.entiry';
 
 export const databaseProviders = [
   {
     provide: DataSource,
-    useFactory: async () => {
+    useFactory: async (config: ConfigService) => {
       const dataSource = new DataSource({
         type: 'postgres',
-        host: process.env.DB__HOST,
-        port: parseInt(process.env.DB__PORT || '3306'),
-        username: process.env.DB__USER,
-        password: process.env.DB__PASSWORD,
-        database: process.env.DB__NAME,
+        host: config.get<string>('DB__HOST'),
+        port: config.get<number>('DB__PORT'),
+        username: config.get<string>('DB__USER'),
+        password: config.get<string>('DB__PASSWORD'),
+        database: config.get<string>('DB__NAME'),
         synchronize: true,
-        logging: process.env.DB__LOGGING === 'true',
+        logging: config.get<boolean>('DB__LOGGING'),
         entities: [Product],
         subscribers: [],
         migrations: [],
@@ -21,5 +22,6 @@ export const databaseProviders = [
 
       return dataSource.initialize();
     },
+    inject: [ConfigService],
   },
 ];
