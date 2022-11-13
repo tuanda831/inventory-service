@@ -15,7 +15,7 @@
     "start:apis:dev": "nest start --watch --entryFile main-apis",
     "start:apis:debug": "nest start --debug --watch --entryFile main-apis",
     "start:apis:prod": "node dist/main-apis",
-    "start:consumers": "nest start --watch --entryFile main-consumers",
+    "start:consumers": "nest start --entryFile main-consumers",
     "start:consumers:dev": "nest start --watch --entryFile main-consumers",
     "start:consumers:debug": "nest start --debug --watch --entryFile main-consumers",
     "start:consumers:prod": "node dist/main-consumers",

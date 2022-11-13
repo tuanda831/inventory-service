@@ -11,7 +11,7 @@ export const LoggerFactory = (
   config: ConfigService,
   defaultLogger: LoggerService,
 ): LoggerService => {
-  if (!config.get<boolean>('LOGGER__TO_FILE')) {
+  if (config.get('LOGGER__TO_FILE') == 'false') {
     return defaultLogger;
   }
 
