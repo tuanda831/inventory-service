@@ -15,24 +15,30 @@
 # [Inventory Service](https://www.linkedin.com/in/tuando831/)
 
 ## Table of Contents
+
 1. [Features](#features)
-2. [Tech stack](#tech-stack)
-3. [Running the Dev Environment](#run-the-dev-environment)
-4. [Deploying](#deploying)
-5. [Source Structure](#source-structure)
-6. [Database Design](#database-design)
-7. [Use cases](#use-cases)
+2. [Sequence diagram](#sequence-diagram)
+3. [Tech stack](#tech-stack)
+4. [Running the Dev Environment](#run-the-dev-environment)
+5. [Deploying](#deploying)
+6. [Source Structure](#source-structure)
+7. [Database Design](#database-design)
 8. [License](#license)
 
 ## Features
 
 The Inventory service will provides the following features:
+
 - [x] CRUD://inventoy/products
 - [ ] CRUD://inventoy/products/:id/product-variants
 - [ ] CRUD://inventoy/product-category
 - [ ] CRUD://inventoy/product-attributes
 
-## Tech stack 
+## Sequence diagram
+
+- [Product CRUD](docs/product-crud.md)
+
+## Tech stack
 
 - [x] Dev environment with [docker-compose](https://www.docker.com/)
 - [x] Database with [PostgreSql](postgresql.org)
@@ -44,7 +50,7 @@ The Inventory service will provides the following features:
 - [x] E2E testing [Supertest](https://www.npmjs.com/package/supertest)
 - [x] Swagger documentation using [@nestjs/swagger](https://www.npmjs.com/package/@nestjs/swagger)
 - [x] Logging using `nest-winston`
-- [ ] Event Sourcing using [Temporal](https://temporal.io/)
+- [x] Event Sourcing using Kafka
 - [ ] DevOps pipeline with [Github CI](https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs)
 
 ## Run the Dev Environment
@@ -74,31 +80,31 @@ npm start
 
 1. Connect with PostgreSQL
 
-    > Recommend [TablePlus](https://tableplus.com/), dbeaver
+   > Recommend [TablePlus](https://tableplus.com/), dbeaver
 
-    ```
-    POSTGRES_USER=dev_user
-    POSTGRES_PASSWORD=dev_pass
-    POSTGRES_DB=inventory_db
-    ```
+   ```
+   POSTGRES_USER=dev_user
+   POSTGRES_PASSWORD=dev_pass
+   POSTGRES_DB=inventory_db
+   ```
 
 2. APIs URL: http://localhost:3000
 
 3. APIs Document (Swagger): http://localhost:3000/docs
+
+4. Kafka UI: http://localhost:8080
 
 ## Deploying
 
 Will update later...
 
 ## Source Structure
-![Source Structure](docs/structure.drawio.png "Title")
+
+![Source Structure](docs/structure.drawio.png 'Title')
 
 ## Database Design
-![Database diagram](docs/database.drawio.png "Title")
 
-## Use cases
-- [Product CRUD](docs/product-crud.md)
-- [Product variant](docs/product-variant.md)
+![Database diagram](docs/database.drawio.png 'Title')
 
 ## License
 
