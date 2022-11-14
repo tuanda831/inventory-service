@@ -5,7 +5,6 @@ import {
   OnApplicationShutdown,
 } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
-import { exit } from 'process';
 import { DataSource } from 'typeorm';
 
 @Injectable()
@@ -20,6 +19,5 @@ export class GracefulShutdown implements OnApplicationShutdown {
     Logger.log(`Signal "${signal}" Received!`);
     this.dataSource.destroy();
     this.eventClient.close();
-    exit(0);
   }
 }

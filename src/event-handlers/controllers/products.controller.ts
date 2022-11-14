@@ -1,6 +1,6 @@
 import { Controller, Logger } from '@nestjs/common';
 import { EventPattern, Payload } from '@nestjs/microservices';
-import { EVENT__PRODUCT_CREATION } from 'src/dto/constants/events';
+import { EVENT__PRODUCT_CREATION } from '../../dto/constants/events';
 import { Product } from '../../dto/entity/product/product.entiry';
 import { ProductService } from '../../services/products/product.service';
 

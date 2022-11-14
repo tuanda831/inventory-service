@@ -1,14 +1,23 @@
 import { INestApplication } from '@nestjs/common';
+import { ClientKafka } from '@nestjs/microservices';
 import { Test, TestingModule } from '@nestjs/testing';
-import { ProductCreationRequest } from 'src/rest-apis/requests/products/product-creation.request';
+import { from, Observable } from 'rxjs';
 import * as request from 'supertest';
 import { DataSource } from 'typeorm';
+import { EVENT__PRODUCT_CREATION } from '../../src/dto/constants/events';
+import { Product } from '../../src/dto/entity/product/product.entiry';
+import { ProductController } from '../../src/event-handlers/controllers/products.controller';
 import { ApisModule } from '../../src/rest-apis/apis.module';
+import { ProductCreationRequest } from '../../src/rest-apis/requests/products/product-creation.request';
+import { ProductService } from '../../src/services/products/product.service';
 import { TRUNCATE_ALL_TABLES } from './utils';
 
 describe('ApiController (e2e)', () => {
   let app: INestApplication;
   let dbClient: DataSource;
+  let eventClient: ClientKafka;
+  let productService: ProductService;
+  let productInPost: Product[];
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -16,6 +25,10 @@ describe('ApiController (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+
+    eventClient = app.get(ClientKafka);
+    productService = app.get(ProductService);
+
     await app.init();
 
     app.enableShutdownHooks();
@@ -48,6 +61,21 @@ describe('ApiController (e2e)', () => {
       };
 
       it('should create a product', async () => {
+        jest
+          .spyOn(eventClient, 'emit')
+          .mockImplementation(
+            (eventName: string, products: Product[]): Observable<any> => {
+              expect(eventName).toBe(EVENT__PRODUCT_CREATION);
+              expect(products[0]).toMatchSnapshot({
+                id: expect.any(String),
+              });
+
+              productInPost = products;
+
+              return from([]);
+            },
+          );
+
         const res = await request(app.getHttpServer())
           .post('/products')
           .send(productReq);
@@ -56,8 +84,6 @@ describe('ApiController (e2e)', () => {
         expect(res.body).toMatchSnapshot({
           data: {
             id: expect.any(String),
-            createdAt: expect.any(String),
-            updatedAt: expect.any(String),
           },
         });
       });
@@ -65,6 +91,9 @@ describe('ApiController (e2e)', () => {
 
     describe('Get products', () => {
       it('should get a products', async () => {
+        const handler = new ProductController(productService);
+        await handler.create(productInPost);
+
         const res = await request(app.getHttpServer()).get('/products');
         expect(res.status).toBe(200);
         expect(res.body).toMatchSnapshot({

@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProductController /products (POST) Should successful insert a record to the DB 1`] = `
+Object {
+  "barcode": "99999",
+  "description": "Product Description here",
+  "id": Any<String>,
+  "images": Array [
+    "https://test1.link",
+    "https://test2.link",
+  ],
+  "name": "New Product",
+  "price": 1.98,
+  "shortCode": "New-Product-123",
+  "sku": "123",
+}
+`;

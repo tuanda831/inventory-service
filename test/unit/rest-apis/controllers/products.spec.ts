@@ -1,23 +1,23 @@
-import { ConfigService } from '@nestjs/config';
 import { ClientKafka } from '@nestjs/microservices';
 import { Response } from 'express';
+import { Observable } from 'rxjs';
 import { Repository } from 'typeorm';
+import { EVENT__PRODUCT_CREATION } from '../../../../src/dto/constants/events';
 import { Product } from '../../../../src/dto/entity/product/product.entiry';
 import { ProductController } from '../../../../src/rest-apis/controllers/products.controller';
 import { ProductCreationRequest } from '../../../../src/rest-apis/requests/products/product-creation.request';
 import { ProductService } from '../../../../src/services/products/product.service';
 
-const results = new Product();
 let controller: ProductController;
 let productService: ProductService;
 let productRepository: Repository<Product>;
 let eventClient: ClientKafka;
-let config: ConfigService;
 
 describe('ProductController', () => {
   beforeEach(async () => {
     productService = new ProductService(productRepository);
-    controller = new ProductController(productService, eventClient, config);
+    eventClient = new ClientKafka({});
+    controller = new ProductController(productService, eventClient);
   });
 
   describe('/products (POST)', () => {
@@ -42,17 +42,16 @@ describe('ProductController', () => {
 
     it('Should successful insert a record to the DB', async () => {
       jest
-        .spyOn(productService, 'save')
-        .mockImplementation((product: Product) => {
-          expect(product.sku).toBe(request.sku);
-          expect(product.barcode).toBe(request.barcode);
-          expect(product.name).toBe(request.name);
-          expect(product.description).toBe(request.description);
-          expect(product.images).toBe(request.images);
-          expect(product.price).toBe(request.price);
-
-          return Promise.resolve(results);
-        });
+        .spyOn(eventClient, 'emit')
+        .mockImplementation(
+          (eventName: string, products: Product[]): Observable<Product> => {
+            expect(eventName).toBe(EVENT__PRODUCT_CREATION);
+            expect(products[0]).toMatchSnapshot({
+              id: expect.any(String),
+            });
+            return new Observable<Product>();
+          },
+        );
 
       res = {
         status: (code: any): Response => {
@@ -60,7 +59,9 @@ describe('ProductController', () => {
           return {
             send({ message, data }) {
               expect(message).toBe('"Product" is Created!');
-              expect(data).toBe(results);
+              expect(data).toMatchObject({
+                id: expect.any(String),
+              });
             },
           } as Response;
         },
